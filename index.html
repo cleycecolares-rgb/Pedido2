@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>...</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&family=Playfair+Display&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(180deg, #f8f6ff, #e6f0ff);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+/* texto */
+h1 {
+  font-family: 'Dancing Script', cursive;
+  font-size: 32px;
+  color: #6b5ca5;
+  text-align: center;
+  z-index: 2;
+}
+
+p {
+  font-family: 'Playfair Display', serif;
+  color: #6b5ca5;
+  z-index: 2;
+}
+
+/* botões */
+button {
+  padding: 12px 22px;
+  font-size: 16px;
+  margin: 10px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.sim {
+  background: #d6ccff;
+  color: #4a3f8a;
+}
+
+.nao {
+  background: #fff3c4;
+  color: #8a7a3f;
+  position: absolute;
+}
+
+/* fotos */
+.foto {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 16px;
+  opacity: 0.85;
+  animation: flutuar linear infinite;
+}
+
+@keyframes flutuar {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-120vh); }
+}
+
+/* balões */
+.balao {
+  position: absolute;
+  bottom: -100px;
+  width: 30px;
+  height: 45px;
+  border-radius: 50%;
+  animation: subir 6s linear infinite;
+}
+
+@keyframes subir {
+  from { transform: translateY(0); }
+  to { transform: translateY(-120vh); }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="musica" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<h1>
+você aceita namorar comigo e ficar aqui para sempre?
+</h1>
+
+<button class="sim" onclick="aceitou()">sim</button>
+<button class="nao" id="nao" onmouseover="fugir()">não</button>
+
+<script>
+
+// 🎵 música
+function tocarMusica() {
+  const musica = document.getElementById("musica");
+  musica.play().catch(() => {});
+}
+document.addEventListener("click", tocarMusica, { once: true });
+document.addEventListener("touchstart", tocarMusica, { once: true });
+
+// botão fugir
+function fugir() {
+  const btn = document.getElementById('nao');
+  btn.style.top = Math.random() * window.innerHeight + "px";
+  btn.style.left = Math.random() * window.innerWidth + "px";
+}
+
+// aceitou
+function aceitou() {
+  document.body.innerHTML = `
+    <h1>UHUUL! AGORA É OFICIAL, VOCÊ MINHA NAMORADAAA</h1>
+    <p>isso aqui é só o começo</p>
+  `;
+
+  // balões
+  setInterval(() => {
+    const balao = document.createElement("div");
+    balao.classList.add("balao");
+    balao.style.left = Math.random() * 100 + "vw";
+    balao.style.background = cores();
+    document.body.appendChild(balao);
+
+    setTimeout(() => balao.remove(), 6000);
+  }, 200);
+}
+
+// cores suaves
+function cores() {
+  const lista = ["#d6ccff", "#cce5ff", "#fff3c4", "#e0d4ff"];
+  return lista[Math.floor(Math.random() * lista.length)];
+}
+
+// 📸 fotos (10)
+const fotos = [
+  "foto1.jpg","foto2.jpg","foto3.jpg","foto4.jpg","foto5.jpg",
+  "foto6.jpg","foto7.jpg","foto8.jpg","foto9.jpg","foto10.jpg"
+];
+
+setInterval(() => {
+  const img = document.createElement("img");
+  img.src = fotos[Math.floor(Math.random() * fotos.length)];
+  img.classList.add("foto");
+
+  img.style.left = Math.random() * 100 + "vw";
+  img.style.animationDuration = (6 + Math.random() * 6) + "s";
+
+  document.body.appendChild(img);
+
+  setTimeout(() => img.remove(), 12000);
+}, 500);
+
+// 💖 elementos fofos
+const elementos = ["💖","⭐","🎀","✨","💛","🎉"];
+
+setInterval(() => {
+  const el = document.createElement("div");
+  el.innerHTML = elementos[Math.floor(Math.random() * elementos.length)];
+
+  el.style.position = "absolute";
+  el.style.left = Math.random() * 100 + "vw";
+  el.style.bottom = "-50px";
+  el.style.fontSize = (15 + Math.random() * 20) + "px";
+  el.style.opacity = 0.8;
+  el.style.animation = "subir 6s linear";
+
+  document.body.appendChild(el);
+
+  setTimeout(() => el.remove(), 6000);
+}, 300);
+
+</script>
+
+</body>
+</html>
